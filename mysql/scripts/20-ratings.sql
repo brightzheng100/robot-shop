@@ -10,7 +10,6 @@ CREATE TABLE ratings (
     PRIMARY KEY (sku)
 ) ENGINE=InnoDB;
 
-
-GRANT ALL ON ratings.* TO 'ratings'@'%'
-IDENTIFIED BY 'iloveit';
-
+CREATE USER 'ratings'@'%' IDENTIFIED BY 'iloveit';
+GRANT ALL PRIVILEGES ON ratings.* TO 'ratings'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
