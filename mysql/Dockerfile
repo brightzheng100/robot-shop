@@ -1,4 +1,4 @@
-FROM mysql:5.7
+FROM arm64v8/mysql:oracle
 
 VOLUME /data
 
