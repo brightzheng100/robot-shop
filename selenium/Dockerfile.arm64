@@ -1,0 +1,36 @@
+FROM arm64v8/ubuntu:20.04
+
+# The URL of Robot Shop
+ENV HOST="http://web:8080"
+
+# Install Chromium and Chrome WebDriver
+RUN \
+    apt-get update && \
+    apt-get install -y wget curl unzip gnupg2 python3 python3-distutils python3-pip && \
+    ln -s /usr/bin/python3 /usr/bin/python && \
+    \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common && \
+    add-apt-repository -y ppa:saiarcot895/chromium-dev && \
+    apt-get update && \
+    apt-get install -y chromium-browser=1:98.0.4736.0-0ubuntu1~ppa1~20.04.1 && \
+    \
+    python -m pip install --upgrade --no-cache-dir selenium && \
+    \
+    mkdir temp && cd temp && \
+    wget https://github.com/electron/electron/releases/download/v17.3.0/chromedriver-v17.3.0-linux-arm64.zip && \
+    unzip chromedriver*.zip && \
+    chmod 0755 chromedriver && mv chromedriver /usr/local/bin/ && \
+    \
+    apt-get remove -y wget unzip && \
+    cd .. && rm -rf temp && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN useradd -m loader
+USER loader
+
+WORKDIR /load
+
+COPY --chown=loader:loader entrypoint.sh .
+COPY --chown=loader:loader load.py .
+
+ENTRYPOINT ["./entrypoint.sh"]
