@@ -1,5 +1,5 @@
 import sys,time,random
-from selenium import webdriver 
+from seleniumwire import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -9,13 +9,22 @@ from selenium.webdriver.support import expected_conditions as EC
 HOST=sys.argv[1]
 ROUND=sys.argv[2]
 
-# Honolulu: 21.3281792,-157.8691131
-# Mauritius: -21.0752381,57.0387649
-# South Africa: -33.914651,18.3758793
-# China: 30.2325248,120.1400391
-latitude = [21.3281792,-21.0752381,-33.914651,30.2325248]
-longitude = [-157.8691131,57.0387649,18.3758793,120.1400391]
-i = random.choice([0, 1, 2, 3])
+# Ref:
+# - https://lite.ip2location.com/ip-address-ranges-by-country?lang=en_US
+# - https://www.maxmind.com/en/geoip-demo
+# US: 6.35.44.34
+# CN: 101.102.100.66
+# JP: 1.5.31.20
+# IN: 1.38.2.12
+# AU: 103.179.202.88
+# BR: 101.33.22.66
+# RU: 104.110.184.10
+# CA: 103.140.120.68
+ip_from_countries = ["6.35.44.34", "101.102.100.66", "1.5.31.20", "1.38.2.12", "103.179.202.88", "101.33.22.66", "104.110.184.10", "103.140.120.68"]
+i = random.choice([0, 1, 2, 3, 4, 5, 6, 7])
+
+def request_interceptor(request):
+    request.headers['X-Forwarded-For'] = ip_from_countries[i]
 
 def try_and_click(driver, by_type, by_path):
     try:
@@ -31,24 +40,15 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument('--disable-dev-shm-usage')
 chrome_options.add_argument("--headless")
 chrome_options.add_argument('--ignore-certificate-errors')
-chrome_options.add_experimental_option("prefs", { "profile.default_content_setting_values.geolocation": 1})
 
 driver = webdriver.Chrome(options=chrome_options)
+driver.request_interceptor = request_interceptor
 
 print("--> HOST: " + HOST)
 print("--> START: " + ROUND)
+print("--> X-Forwarded-For:" + ip_from_countries[i])
 
 try:
-
-    driver.execute_cdp_cmd(
-        "Emulation.setGeolocationOverride",
-        {
-            "latitude": latitude[i],
-            "longitude": longitude[i],
-            "accuracy": 100,
-        },
-    )
-
     driver.get(HOST)
 
     driver.refresh()

@@ -9,12 +9,12 @@ RUN \
     apt-get install -y wget curl unzip gnupg2 python3 python3-distutils python3-pip && \
     ln -s /usr/bin/python3 /usr/bin/python && \
     \
-    python -m pip install --upgrade --no-cache-dir selenium && \
+    python -m pip install --upgrade --no-cache-dir selenium selenium-wire && \
     \
     wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
-    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google.list && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg2 google-chrome-stable && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y google-chrome-stable && \
     \
     CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE` && \
     mkdir -p /opt/chromedriver-$CHROMEDRIVER_VERSION && \

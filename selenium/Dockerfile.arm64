@@ -14,7 +14,7 @@ RUN \
     apt-get update && \
     apt-get install -y chromium-browser=1:98.0.4736.0-0ubuntu1~ppa1~20.04.1 && \
     \
-    python -m pip install --upgrade --no-cache-dir selenium && \
+    python -m pip install --upgrade --no-cache-dir selenium selenium-wire && \
     \
     mkdir temp && cd temp && \
     wget https://github.com/electron/electron/releases/download/v17.3.0/chromedriver-v17.3.0-linux-arm64.zip && \
