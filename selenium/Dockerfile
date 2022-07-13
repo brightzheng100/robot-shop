@@ -23,9 +23,7 @@ RUN \
     chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver && \
     ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver && \
     \
-    apt-get remove -y wget unzip && \
-    rm /tmp/chromedriver.zip && \
-    rm -rf /var/lib/apt/lists/*
+    rm /tmp/chromedriver.zip
 
 RUN useradd -m loader
 USER loader
