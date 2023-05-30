@@ -15,3 +15,15 @@ services:
       options:
         max-size: "25m"
         max-file: "2"
+  website-load:
+    image: ${REPO}/rs-website-load:${TAG}
+    build:
+      context: selenium
+    environment:
+      HOST: http://web:8080
+    networks:
+      - robot-shop
+    depends_on:
+      - web
+    logging:
+      <<: *logging
