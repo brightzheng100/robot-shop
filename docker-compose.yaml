@@ -160,10 +160,10 @@ services:
       interval: 10s
       timeout: 10s
       retries: 3
-    # Uncomment to enable Instana EUM
-    # environment:
-      # INSTANA_EUM_KEY: <your eum key>
-      # INSTANA_EUM_REPORTING_URL: <your reporting url>
+    # Comment out to disable Instana EUM
+    environment:
+      INSTANA_EUM_KEY: ${INSTANA_EUM_KEY}
+      INSTANA_EUM_REPORTING_URL: ${INSTANA_EUM_REPORTING_URL}
     logging:
       <<: *logging
 
