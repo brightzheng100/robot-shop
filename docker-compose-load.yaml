@@ -6,6 +6,7 @@ services:
       context: load-gen
     environment:
       HOST: http://web:8080
+      ERROR: "0"              # set it to "1" to randomly generate errors
     networks:
       - robot-shop
     depends_on:
