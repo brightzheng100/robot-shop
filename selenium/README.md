@@ -84,3 +84,34 @@ spec:
         image: brightzheng100/rs-website-load:latest
 EOF
 ```
+
+## Development
+
+While developing and testing the Python load script, it's recommended to do that in a Docker container.
+
+Firstly, we should use Selenium IDE Chrome plugin to record the desired process.
+
+Then:
+
+```sh
+docker run -it --name python python:3.8 bash
+
+# Install Chromium
+apt-get update
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+apt-get install ./google-chrome-stable_current_amd64.deb
+google-chrome-stable --headless --no-sandbox --dump-dom https://www.google.com
+
+# Install Selenium
+# Ref: https://pypi.org/project/selenium/
+pip install -U selenium
+
+# Tune and copy the load.py into the container
+cat > load.py
+
+# Run it once
+python load.py http://<IP>:8080/ 1
+
+# Or continuously run it
+while true; do python load.py http://<IP>:8080/ 1; sleep 0.5; done
+```
