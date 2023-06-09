@@ -64,6 +64,7 @@ try:
 
     try_and_click(driver, By.XPATH, "//span[contains(.,\'Artificial Intelligence\')]")
     try_and_click(driver, By.XPATH, "//a[contains(text(),\'Ewooid\')]")
+    time.sleep(0.1)
     try_and_click(driver, By.ID,    "vote-4")
     try_and_click(driver, By.XPATH, "//a[contains(text(),\'Watson\')]")
     try_and_click(driver, By.XPATH, "//button[contains(.,\'Add to cart\')]")
